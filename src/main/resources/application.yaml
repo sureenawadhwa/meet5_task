@@ -9,4 +9,4 @@ spring:
     password: 123
 
 
-
+fraudulentThreshold: 100
