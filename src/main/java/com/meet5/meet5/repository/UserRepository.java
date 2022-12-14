@@ -1,0 +1,40 @@
+package com.meet5.meet5.repository;
+
+import com.meet5.meet5.entity.Meet5User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+/**
+ * @author Sureena Wadhwa
+ */
+@Repository
+public class UserRepository {
+  @Autowired private JdbcTemplate jdbcTemplate;
+
+  public int save(Meet5User meet5User) {
+    return jdbcTemplate.update("INSERT into meet5_user VALUES (?, ?, ?, ?,?)",
+            meet5User.getId(), meet5User.getName(), meet5User.getAge(), meet5User.getVisitor_count(),meet5User.getCreatedTs());
+  }
+
+  public int update(Meet5User meet5User, int id) {
+    return 0;
+  }
+
+  public List<Meet5User> getAll() {
+    return jdbcTemplate.query(
+        "SELECT * FROM meet5_user", new BeanPropertyRowMapper<Meet5User>(Meet5User.class));
+  }
+
+  public Meet5User getById(String id) {
+    return null;
+  }
+
+  public List<Meet5User> getAllVisitorsOfUserSortedDesc(String id){
+    return jdbcTemplate.query("SELECT * from meet5_user where id IN (SELECT visitor_id FROM  MEET5_VISITOR where visited_id =?) ORDER BY created_ts  DESC",
+                                  new BeanPropertyRowMapper<Meet5User>(Meet5User.class),id);
+  }
+}
