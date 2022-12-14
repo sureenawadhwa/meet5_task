@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author Sureena Wadhwa @Since 13/12/2022
@@ -21,12 +22,10 @@ public class UserService {
     return userRepository.getAll();
   }
 
-  public int createUser(Meet5User meet5User){
+  public Meet5User createUser(Meet5User meet5User){
+    meet5User.setId(String.valueOf(UUID.randomUUID()));
     meet5User.setCreatedTs(LocalDateTime.now());
-    return userRepository.save(meet5User);
-  }
-
-  public List<Meet5User> getAllVisitorsOfUser(String id) {
-    return userRepository.getAllVisitorsOfUserSortedDesc(id);
+    userRepository.save(meet5User);
+    return meet5User;
   }
 }

@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 /**
- * @author Sureena Wadhwa @Since 13/12/2022
+ * @author Sureena Wadhwa
  */
 
 @Data
@@ -19,8 +19,7 @@ public class Meet5User {
   private String id;
   private String name;
   private int age;
-  private int visitor_count;
 
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
+  @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
   private LocalDateTime createdTs;
 }

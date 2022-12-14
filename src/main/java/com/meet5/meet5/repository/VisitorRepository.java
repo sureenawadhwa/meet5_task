@@ -1,18 +1,25 @@
 package com.meet5.meet5.repository;
 
+import com.meet5.meet5.entity.Meet5User;
 import com.meet5.meet5.entity.Meet5Visitor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+import static java.lang.Boolean.TRUE;
 
 /**
  * @author Sureena Wadhwa
  **/
 @Repository
+@RequiredArgsConstructor
 public class VisitorRepository {
 
-    @Autowired private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     @Value("${fraudulentThreshold:100}")
     private int fraudulentThreshold;
@@ -25,8 +32,15 @@ public class VisitorRepository {
 
     public boolean isFraudulent(String id){
         String query = "SELECT count(*) >=? from meet5_user " +
-                "INNER JOIN meet5_visitor ON meet5_user.id = meet5_visitor.visitor_id " +
-                "where TIMESTAMPDIFF(MINUTE, created_ts, visited_ts) < 10 and visitor_id = ?";
-        return Boolean.TRUE.equals(jdbcTemplate.queryForObject(query, boolean.class,fraudulentThreshold,id));
+                        "INNER JOIN meet5_visitor ON meet5_user.id = meet5_visitor.visitor_id " +
+                        "where TIMESTAMPDIFF(MINUTE, created_ts, visited_ts) < 10 and visitor_id = ?";
+        return TRUE.equals(jdbcTemplate.queryForObject(query, boolean.class,fraudulentThreshold,id));
+    }
+
+    public List<Meet5User> getAllVisitorsOfUserSortedDesc(String id){
+        return jdbcTemplate.query("SELECT * from meet5_user where id IN " +
+                                 "(SELECT visitor_id FROM  MEET5_VISITOR where visited_id =?) " +
+                                 "ORDER BY created_ts  DESC",
+                new BeanPropertyRowMapper<Meet5User>(Meet5User.class),id);
     }
 }

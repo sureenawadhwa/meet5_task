@@ -1,11 +1,13 @@
 package com.meet5.meet5.service;
 
+import com.meet5.meet5.entity.Meet5User;
 import com.meet5.meet5.entity.Meet5Visitor;
 import com.meet5.meet5.repository.VisitorRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @author Sureena Wadhwa
@@ -24,6 +26,10 @@ public class VisitorService {
 
     public boolean isFraud(String id) {
         return visitorRepository.isFraudulent(id);
+    }
+
+    public List<Meet5User> getAllVisitorsOfUser(String id) {
+        return visitorRepository.getAllVisitorsOfUserSortedDesc(id);
     }
 
 }

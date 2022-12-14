@@ -4,7 +4,6 @@ CREATE TABLE meet5_user
   id         VARCHAR(100) NOT NULL PRIMARY KEY,
   name       VARCHAR(50) NOT NULL,
   age        INT NOT NULL,
-  visitor_count INT NOT NULL DEFAULT 0,
   created_ts timestamp NOT NULL
 );
 
