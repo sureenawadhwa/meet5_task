@@ -28,7 +28,7 @@ public class UserRepository {
 
   public Optional<Meet5User> findById(String id){
     List<Meet5User> list = jdbcTemplate
-            .queryForList("SELECT * FROM meet5_user where id=?",Meet5User.class,id);
+            .query("SELECT * FROM meet5_user where id=?",new BeanPropertyRowMapper<>(Meet5User.class),id);
     return list.isEmpty()
             ? Optional.empty()
             : Optional.of(list.get(0));

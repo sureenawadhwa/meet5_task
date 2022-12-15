@@ -4,6 +4,7 @@ import com.meet5.meet5.entity.Meet5User;
 import com.meet5.meet5.entity.Meet5Visitor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -41,8 +42,8 @@ public class VisitorRepository {
                 "from meet5_user as u " +
                 "INNER JOIN meet5_visitor " +
                 "ON u.id = meet5_visitor.visitor_id " +
-                "where u.id = ? " +
+                "where visited_id = ? " +
                 "ORDER BY visited_ts DESC";
-        return jdbcTemplate.queryForList(query, Meet5User.class, id);
+        return jdbcTemplate.query(query, new BeanPropertyRowMapper<>(Meet5User.class), id);
     }
 }
