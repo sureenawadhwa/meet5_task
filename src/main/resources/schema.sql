@@ -14,5 +14,4 @@ create table meet5_Visitor (
   visited_ts timestamp NOT NULL,
   foreign key (visitor_id) references meet5_user(id),
   foreign key (visitor_id) references meet5_user(id)
-
-)
+);
