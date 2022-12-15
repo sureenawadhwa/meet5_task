@@ -12,5 +12,7 @@ create table meet5_Visitor (
   visitor_id varchar(100) not null,
   visited_id varchar(100) not null,
   visited_ts timestamp NOT NULL,
+  foreign key (visitor_id) references meet5_user(id),
   foreign key (visitor_id) references meet5_user(id)
+
 )

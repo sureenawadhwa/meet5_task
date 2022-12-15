@@ -20,11 +20,13 @@ public class UserController {
 
   private UserService userService;
 
+  // API to create user
   @PostMapping()
   private Meet5User createUser(Meet5User requestUser) {
     return userService.createUser(requestUser);
   }
 
+  // API to get all users
   @GetMapping()
   private List<Meet5User> getAll() {
     return userService.getAllUsers();

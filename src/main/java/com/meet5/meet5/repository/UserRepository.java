@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Sureena Wadhwa
@@ -23,6 +24,14 @@ public class UserRepository {
   public List<Meet5User> getAll() {
     return jdbcTemplate.query(
         "SELECT * FROM meet5_user", new BeanPropertyRowMapper<Meet5User>(Meet5User.class));
+  }
+
+  public Optional<Meet5User> findById(String id){
+    List<Meet5User> list = jdbcTemplate
+            .queryForList("SELECT * FROM meet5_user where id=?",Meet5User.class,id);
+    return list.isEmpty()
+            ? Optional.empty()
+            : Optional.of(list.get(0));
   }
 
 }
